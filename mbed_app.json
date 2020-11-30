@@ -1,0 +1,77 @@
+{
+    "config": {
+        "use_dps": {
+            "help": "Enable connecting with IoT Hub via DPS",
+            "options": [null, true],
+            "value": true,
+            "macro_name": "USE_PROV_MODULE_FULL"
+        },
+        "provision_registration_id": {
+            "help": "Registration ID when DPS is used",
+            "value": "\"REGISTRATION_ID\""
+        },
+        "provision_symmetric_key": {
+            "help": "Symmetric key when DPS is used",
+            "value": "\"SYMMETRIC_KEY\""
+        },
+        "provision_endpoint": {
+            "help": "Device provisioning service URI when DPS is used",
+            "value": "\"global.azure-devices-provisioning.net\""
+        },
+        "provision_id_scope": {
+            "help": "Device provisioning service ID scope when DPS is used",
+            "value": "\"ID_SCOPE\""
+        },
+        "iothub_connection_string": {
+            "help": "Device connection string for IoT Hub authentication when DPS is not used",
+            "value": "\"IOTHUB_CONNECTION_STRING\""
+        },
+        "iothub_client_trace": {
+            "help": "Enable IoT Hub Client tracing",
+            "value": false
+        }
+    },
+    "macros": [
+        "USE_PROV_MODULE",
+        "HSM_AUTH_TYPE_CUSTOM"
+    ],
+    "target_overrides": {
+        "*": {
+            "platform.stdio-convert-newlines": true,
+            "platform.stdio-baud-rate": 115200
+        },
+        "NUMAKER_PFM_M487": {
+            "target.network-default-interface-type" : "ETHERNET",
+            "target.macros_add"                     : ["MBEDTLS_ENTROPY_HARDWARE_ALT"]
+        },
+        "NUMAKER_IOT_M487": {
+            "target.network-default-interface-type" : "WIFI",
+            "nsapi.default-wifi-security"           : "WPA_WPA2",
+            "nsapi.default-wifi-ssid"               : "\"SSID\"",
+            "nsapi.default-wifi-password"           : "\"PASSWORD\"",
+            "esp8266.tx"                            : "PH_8",
+            "esp8266.rx"                            : "PH_9",
+            "esp8266.rts"                           : "A2",
+            "esp8266.cts"                           : "A3",
+            "esp8266.rst"                           : "PH_3",
+            "esp8266.provide-default"               : true,
+            "target.macros_add"                     : ["MBEDTLS_ENTROPY_HARDWARE_ALT"]
+        },
+        "NUMAKER_IOT_M263A": {
+            "target.network-default-interface-type" : "WIFI",
+            "nsapi.default-wifi-security"           : "WPA_WPA2",
+            "nsapi.default-wifi-ssid"               : "\"SSID\"",
+            "nsapi.default-wifi-password"           : "\"PASSWORD\"",
+            "esp8266.tx"                            : "PC_7",
+            "esp8266.rx"                            : "PC_6",
+            "esp8266.rts"                           : "PE_13",
+            "esp8266.cts"                           : "PC_8",
+            "esp8266.rst"                           : "PE_12",
+            "esp8266.provide-default"               : true
+        },
+        "NUMAKER_PFM_NUC472": {
+            "target.network-default-interface-type" : "ETHERNET",
+            "target.macros_add"                     : ["MBEDTLS_ENTROPY_HARDWARE_ALT"]
+        }
+    }
+}
