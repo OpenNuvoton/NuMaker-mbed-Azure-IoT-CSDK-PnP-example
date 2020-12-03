@@ -151,8 +151,20 @@ static bool BuildMaxMinCommandResponse(PNP_THERMOSTAT_COMPONENT* pnpThermostatCo
         LogError("Unable to output the current time");
         result = false;
     }
+    /* BUGFIX: Passing null pointer buffer to snprintf for pre-calculating needed buffer size
+     *
+     * This feature is Microsoft's extension and not supported on Mbed OS.
+     * https://docs.microsoft.com/en-us/cpp/c-runtime-library/reference/snprintf-snprintf-snprintf-l-snwprintf-snwprintf-l?view=msvc-160
+     *
+     * Fixed by substituting giving reasonable estimate for the pre-calculation:
+     * EST = format string length + float x 2 + time string x 2
+     */
+#if 0
     else if ((responseBuilderSize = snprintf(NULL, 0, g_maxMinCommandResponseFormat, pnpThermostatComponent->maxTemperature, pnpThermostatComponent->minTemperature,
                                              pnpThermostatComponent->allTemperatures / pnpThermostatComponent->numTemperatureUpdates, g_programStartTime, currentTime)) < 0)
+#else
+     else if (!(responseBuilderSize = sizeof(g_maxMinCommandResponseFormat) + 15 * 2 + TIME_BUFFER_SIZE * 2))
+#endif
     {
         LogError("snprintf to determine string length for command response failed");
         result = false;
