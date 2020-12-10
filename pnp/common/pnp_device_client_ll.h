@@ -6,6 +6,10 @@
 
 #include "iothub_device_client_ll.h"
 
+#ifdef __cplusplus
+extern "C" {
+#endif
+
 //
 // Whether we're using a connection string or DPS provisioning for device credentials
 //
@@ -63,5 +67,9 @@ typedef struct PNP_DEVICE_CONFIGURATION_TAG
 // NOTE: When using DPS based authentication, this function can *block* until DPS responds to the request or timeout.
 //
 IOTHUB_DEVICE_CLIENT_LL_HANDLE PnP_CreateDeviceClientLLHandle(const PNP_DEVICE_CONFIGURATION* pnpDeviceConfiguration);
+
+#ifdef __cplusplus
+}
+#endif
 
 #endif /* PNP_DEVICE_CLIENT_LL_H */

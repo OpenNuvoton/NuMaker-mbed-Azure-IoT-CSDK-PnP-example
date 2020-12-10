@@ -1,7 +1,23 @@
-// Copyright (c) Microsoft. All rights reserved.
-// Licensed under the MIT license. See LICENSE file in the project root for full license information.
+/*
+ * Copyright (c) 2020, Nuvoton Technology Corporation
+ *
+ * SPDX-License-Identifier: Apache-2.0
+ *
+ * Licensed under the Apache License, Version 2.0 (the "License");
+ * you may not use this file except in compliance with the License.
+ * You may obtain a copy of the License at
+ *
+ *     http://www.apache.org/licenses/LICENSE-2.0
+ *
+ * Unless required by applicable law or agreed to in writing, software
+ * distributed under the License is distributed on an "AS IS" BASIS,
+ * WITHOUT WARRANTIES OR CONDITIONS OF ANY KIND, either express or implied.
+ * See the License for the specific language governing permissions and
+ * limitations under the License.
+ */
 
-// The DTDL for this interface is defined at https://repo.azureiotrepository.com/Models/dtmi:azure:DeviceManagement:DeviceInformation;1?api-version=2020-05-01-preview
+// The DTDL for this interface is defined at:
+//  https://github.com/Azure/iot-plugandplay-models/blob/main/dtmi/azure/devicemanagement/deviceinformation-1.json
 
 // PnP routines
 #include "pnp_deviceinfo_component.h"
@@ -19,26 +35,26 @@ static const char PnPDeviceInfo_SoftwareVersionPropertyName[] = "swVersion";
 static const char PnPDeviceInfo_SoftwareVersionPropertyValue[] = PNP_ENCODE_STRING_FOR_JSON("1.0.0.0");
 
 static const char PnPDeviceInfo_ManufacturerPropertyName[] = "manufacturer";
-static const char PnPDeviceInfo_ManufacturerPropertyValue[] = PNP_ENCODE_STRING_FOR_JSON("Sample-Manufacturer");
+static const char PnPDeviceInfo_ManufacturerPropertyValue[] = PNP_ENCODE_STRING_FOR_JSON("Nuvoton");
 
 static const char PnPDeviceInfo_ModelPropertyName[] = "model";
-static const char PnPDeviceInfo_ModelPropertyValue[] = PNP_ENCODE_STRING_FOR_JSON("sample-Model-123");
+static const char PnPDeviceInfo_ModelPropertyValue[] = PNP_ENCODE_STRING_FOR_JSON("NuMaker IoT M487 Dev");
 
 static const char PnPDeviceInfo_OsNamePropertyName[] = "osName";
-static const char PnPDeviceInfo_OsNamePropertyValue[] = PNP_ENCODE_STRING_FOR_JSON("sample-OperatingSystem-name");
+static const char PnPDeviceInfo_OsNamePropertyValue[] = PNP_ENCODE_STRING_FOR_JSON("Mbed OS");
 
 static const char PnPDeviceInfo_ProcessorArchitecturePropertyName[] = "processorArchitecture";
-static const char PnPDeviceInfo_ProcessorArchitecturePropertyValue[] = PNP_ENCODE_STRING_FOR_JSON("Contoso-Arch-64bit");
+static const char PnPDeviceInfo_ProcessorArchitecturePropertyValue[] = PNP_ENCODE_STRING_FOR_JSON("Cortex-M4");
 
 static const char PnPDeviceInfo_ProcessorManufacturerPropertyName[] = "processorManufacturer";
-static const char PnPDeviceInfo_ProcessorManufacturerPropertyValue[] = PNP_ENCODE_STRING_FOR_JSON("Processor Manufacturer(TM)");
+static const char PnPDeviceInfo_ProcessorManufacturerPropertyValue[] = PNP_ENCODE_STRING_FOR_JSON("Arm");
 
 // The storage and memory fields below are doubles.  They should NOT be escaped since they will be legal JSON values when output.
 static const char PnPDeviceInfo_TotalStoragePropertyName[] = "totalStorage";
-static const char PnPDeviceInfo_TotalStoragePropertyValue[] = "10000";
+static const char PnPDeviceInfo_TotalStoragePropertyValue[] = "512";
 
 static const char PnPDeviceInfo_TotalMemoryPropertyName[] = "totalMemory";
-static const char PnPDeviceInfo_TotalMemoryPropertyValue[] = "200";
+static const char PnPDeviceInfo_TotalMemoryPropertyValue[] = "160";
 
 //
 // SendReportedPropertyForDeviceInformation sends a property as part of DeviceInfo component.
