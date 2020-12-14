@@ -10,8 +10,9 @@ It relies on the following modules:
     -   Other dependency libraries
 -   [NTP client library](https://github.com/ARMmbed/ntp-client)
 
-This example is port of [Azure IoT Plug and Play Temperature Controller sample](https://github.com/Azure/azure-iot-sdk-c/tree/master/iothub_client/samples/pnp/pnp_temperature_controller),
-which implements the model [dtmi:com:example:TemperatureController;1](https://github.com/Azure/opendigitaltwins-dtdl/blob/master/DTDL/v2/samples/TemperatureController.json).
+Refering to [Azure IoT Plug and Play Temperature Controller sample](https://github.com/Azure/azure-iot-sdk-c/tree/master/iothub_client/samples/pnp/pnp_temperature_controller),
+this example implements the model [dtmi:nuvoton:numaker_iot_m487_dev-1.json;1](https://github.com/Azure/iot-plugandplay-models/blob/main/dtmi/nuvoton/numaker_iot_m487_dev-1.json)
+on the NuMaker-IoT-M487 board.
 
 For connection with Azure IoT Hub, it supports two authentication types.
 Check [below](#compile-with-mbed-cli) for their respective configuration.
@@ -23,10 +24,7 @@ Check [below](#compile-with-mbed-cli) for their respective configuration.
 
 Platform                        |  Connectivity     | Notes
 --------------------------------|-------------------|---------------
-Nuvoton NUMAKER_PFM_NUC472      | Ethernet          |
-Nuvoton NUMAKER_PFM_M487        | Ethernet          |
 Nuvoton NUMAKER_IOT_M487        | Wi-Fi ESP8266     |
-Nuvoton NUMAKER_IOT_M263A       | Wi-Fi ESP8266     |
 
 ## Support development tools
 
@@ -172,26 +170,24 @@ Configure host terminal program with **115200/8-N-1**, and you should see log si
 Info: Connecting to the network
 Info: Connection success, MAC: a4:cf:12:b7:82:3b
 Info: Getting time from the NTP server
-Info: Time: Thu Nov26 3:54:25 2020
+Info: Time: Tue Dec15 8:17:35 2020
 
-Info: RTC reports Thu Nov26 3:54:25 2020
+Info: RTC reports Tue Dec15 8:17:35 2020
 
 Info: Initiating DPS client to retrieve IoT Hub connection information
 Info: Provisioning callback indicates success.  iothubUri=nuvoton-test-001.azure-devices.net, deviceId=my-dps-symm-device-001
 Info: DPS successfully registered.  Continuing on to creation of IoTHub device client handle.
 Info: Successfully created device client.  Hit Control-C to exit program
 
-Info: Sending serialNumber property to IoTHub
 Info: Sending device information property to IoTHub.  propertyName=swVersion, propertyValue="1.0.0.0"
-Info: Sending device information property to IoTHub.  propertyName=manufacturer, propertyValue="Sample-Manufacturer"
-Info: Sending device information property to IoTHub.  propertyName=model, propertyValue="sample-Model-123"
-Info: Sending device information property to IoTHub.  propertyName=osName, propertyValue="sample-OperatingSystem-name"
-Info: Sending device information property to IoTHub.  propertyName=processorArchitecture, propertyValue="Contoso-Arch-64bit"
-Info: Sending device information property to IoTHub.  propertyName=processorManufacturer, propertyValue="Processor Manufacturer(TM)"
-Info: Sending device information property to IoTHub.  propertyName=totalStorage, propertyValue=10000
-Info: Sending device information property to IoTHub.  propertyName=totalMemory, propertyValue=200
-Info: Sending maximumTemperatureSinceLastReboot property to IoTHub for component=thermostat1
-Info: Sending maximumTemperatureSinceLastReboot property to IoTHub for component=thermostat2
+Info: Sending device information property to IoTHub.  propertyName=manufacturer, propertyValue="Nuvoton"
+Info: Sending device information property to IoTHub.  propertyName=model, propertyValue="NuMaker IoT M487 Dev"
+Info: Sending device information property to IoTHub.  propertyName=osName, propertyValue="Mbed OS"
+Info: Sending device information property to IoTHub.  propertyName=processorArchitecture, propertyValue="Cortex-M4"
+Info: Sending device information property to IoTHub.  propertyName=processorManufacturer, propertyValue="Arm"
+Info: Sending device information property to IoTHub.  propertyName=totalStorage, propertyValue=512
+Info: Sending device information property to IoTHub.  propertyName=totalMemory, propertyValue=160
+Info: Sending led property to IoTHub
 ```
 
 Follow [Use Azure IoT Explorer](https://docs.microsoft.com/en-us/azure/iot-pnp/howto-use-iot-explorer#use-azure-iot-explorer) to connect to your IoT Hub and interact with your device.
@@ -208,12 +204,14 @@ Info: Received PnP command for TemperatureController component, command=reboot
 Info: Temperature controller 'reboot' command invoked with delay=5 seconds
 ```
 
+The device will reboot after 5 seconds.
+
 ### Walk through source code
 
-#### Implement one Azure IoT Plug and Play device model (`pnp/`)
+#### Implement Azure IoT Plug and Play device model (`pnp/`)
 
-This directory contains port of [Azure IoT Plug and Play Temperature Controller sample](https://github.com/Azure/azure-iot-sdk-c/tree/master/iothub_client/samples/pnp/pnp_temperature_controller),
-which implements the model [dtmi:com:example:TemperatureController;1](https://github.com/Azure/opendigitaltwins-dtdl/blob/master/DTDL/v2/samples/TemperatureController.json).
+This directory contains implementation of the model
+[dtmi:nuvoton:numaker_iot_m487_dev-1.json;1](https://github.com/Azure/iot-plugandplay-models/blob/main/dtmi/nuvoton/numaker_iot_m487_dev-1.json).
 
 #### Custom HSM (`hsm_custom/`)
 
