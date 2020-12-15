@@ -107,7 +107,7 @@ InterruptIn g_button2(SW3);
 //
 // PnP_NuMakerIoTM487DevComponent_ReportProperty_Led sends the led property to IoTHub
 //
-static void PnP_NuMakerIoTM487DevComponent_ReportProperty_Led(IOTHUB_DEVICE_CLIENT_LL_HANDLE deviceClient)
+static void PnP_NuMakerIoTM487DevComponent_ReportProperty_Led(IOTHUB_DEVICE_CLIENT_LL_HANDLE deviceClient, int version)
 {
     IOTHUB_CLIENT_RESULT iothubClientResult;
     STRING_HANDLE jsonToSend = NULL;
@@ -115,7 +115,7 @@ static void PnP_NuMakerIoTM487DevComponent_ReportProperty_Led(IOTHUB_DEVICE_CLIE
     /* Reported led state (0/1 for On/Off) */
     int led_state = !g_led;
 
-    if ((jsonToSend = PnP_CreateReportedProperty(NULL, g_ledPropertyName, led_state ? "true" : "false")) == NULL)
+    if ((jsonToSend = PnP_CreateReportedPropertyWithStatus(NULL, g_ledPropertyName, led_state ? "true" : "false", PNP_STATUS_SUCCESS, "success", version)) == NULL)
     {
         LogError("Unable to build %s property", g_ledPropertyName);
     }
@@ -204,7 +204,7 @@ static void PnP_NuMakerIoTM487DevComponent_ProcessPropertyUpdate_Led(IOTHUB_DEVI
         g_led = !led_state;
 
         // Report updated led state
-        PnP_NuMakerIoTM487DevComponent_ReportProperty_Led(deviceClient);
+        PnP_NuMakerIoTM487DevComponent_ReportProperty_Led(deviceClient, version);
     }
 }
 
@@ -490,7 +490,7 @@ int main(void)
         PnP_DeviceInfoComponent_Report_All_Properties(g_deviceInfoComponentName, deviceClient);
 
         // During startup, send the "writeable" properties once.
-        PnP_NuMakerIoTM487DevComponent_ReportProperty_Led(deviceClient);
+        PnP_NuMakerIoTM487DevComponent_ReportProperty_Led(deviceClient, 1);
 
         while (true)
         {
