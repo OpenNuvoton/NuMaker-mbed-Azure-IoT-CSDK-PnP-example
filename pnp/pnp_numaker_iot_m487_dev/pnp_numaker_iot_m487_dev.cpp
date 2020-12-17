@@ -228,7 +228,11 @@ static int PnP_NuMakerIoTM487DevComponent_InvokeRebootCommand(JSON_Value* rootVa
         result = PNP_STATUS_SUCCESS;
         
         // Schedule reboot in specified time
-        LogInfo("System will reboot in %d seconds", delayInSeconds);
+#ifdef AZ_CERT_TESTRUN
+        if( delayInSeconds < 60 ) delayInSeconds = 60; // specific test case of AZ-CLI QueueTestRun, just to avoid chip reboot too early
+#endif
+        LogInfo("System will reboot in %d seconds (i.e: if execute AZ-CLI QueueTestRun, please enable AZ_CERT_TESTRUN macro)", delayInSeconds);
+
         mbed_event_queue()->call_in(std::chrono::seconds(delayInSeconds), NVIC_SystemReset);
     }
     
@@ -255,6 +259,22 @@ static void SetEmptyCommandResponse(unsigned char** response, size_t* responseSi
 }
 
 //
+// BlinkStatusLED blinking status LED to reveal getting request from Server
+//
+static void BlinkStatusLED(int times)
+{
+    static DigitalOut redLed(LED_RED);
+
+    // Blinking for a while
+    for(int i=0; i < times; i++)
+    {
+        redLed = !redLed;
+        ThreadAPI_Sleep(100);
+    }
+    redLed = 1; // turn off
+}
+
+//
 // PnP_NuMakerIoTM487DevComponent_DeviceMethodCallback is invoked by IoT SDK when a device method arrives.
 //
 static int PnP_NuMakerIoTM487DevComponent_DeviceMethodCallback(const char* methodName, const unsigned char* payload, size_t size, unsigned char** response, size_t* responseSize, void* userContextCallback)
@@ -270,6 +290,8 @@ static int PnP_NuMakerIoTM487DevComponent_DeviceMethodCallback(const char* metho
 
     *response = NULL;
     *responseSize = 0;
+
+    BlinkStatusLED(5);
 
     // Parse the methodName into its PnP (optional) componentName and pnpCommandName.
     PnP_ParseCommandName(methodName, &componentName, &componentNameSize, &pnpCommandName);
@@ -336,6 +358,7 @@ static void PnP_NuMakerIoTM487DevComponent_ApplicationPropertyCallback(const cha
     // The pnp_protocol.h/.c pass this userContextCallback down to this visitor function.
     IOTHUB_DEVICE_CLIENT_LL_HANDLE deviceClient = (IOTHUB_DEVICE_CLIENT_LL_HANDLE)userContextCallback;
 
+    BlinkStatusLED(5);
     if (componentName == NULL)
     {
         if (strcmp(propertyName, g_ledPropertyName) == 0) {
