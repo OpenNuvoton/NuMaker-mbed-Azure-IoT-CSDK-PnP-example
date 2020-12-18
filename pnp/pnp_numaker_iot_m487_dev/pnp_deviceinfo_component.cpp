@@ -47,7 +47,7 @@ static const char PnPDeviceInfo_ProcessorArchitecturePropertyName[] = "processor
 static const char PnPDeviceInfo_ProcessorArchitecturePropertyValue[] = PNP_ENCODE_STRING_FOR_JSON("Cortex-M4");
 
 static const char PnPDeviceInfo_ProcessorManufacturerPropertyName[] = "processorManufacturer";
-static const char PnPDeviceInfo_ProcessorManufacturerPropertyValue[] = PNP_ENCODE_STRING_FOR_JSON("Arm");
+static const char PnPDeviceInfo_ProcessorManufacturerPropertyValue[] = PNP_ENCODE_STRING_FOR_JSON("Nuvoton");
 
 // The storage and memory fields below are doubles.  They should NOT be escaped since they will be legal JSON values when output.
 static const char PnPDeviceInfo_TotalStoragePropertyName[] = "totalStorage";
