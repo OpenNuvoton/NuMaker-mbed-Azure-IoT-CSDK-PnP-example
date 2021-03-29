@@ -103,47 +103,61 @@ In the following, we take [NuMaker-IoT-M487](https://os.mbed.com/platforms/NUMAK
         },
     ```
 
-1.  Connecting via DPS, configure DPS parameters. They should have been noted in [above](#operations-on-azure-portal).
+1.  On connecting with IoT Hub via DPS,
 
-    **mbed_app.json**:
-    ```json
-        "provision_registration_id": {
-            "help": "Registration ID when HSM_TYPE_SYMM_KEY is supported; Ignored for other HSM types",
-            "value": "\"REGISTRATION_ID\""
-        },
-        "provision_symmetric_key": {
-            "help": "Symmetric key when HSM_TYPE_SYMM_KEY is supported; Ignored for other HSM types",
-            "value": "\"SYMMETRIC_KEY\""
-        },
-        "provision_endpoint": {
-            "help": "Device provisioning service URI",
+    1.  Configure DPS parameters. They should have been noted in [above](#operations-on-azure-portal).
+
+        **mbed_app.json**:
+        ```json
+            "provision_registration_id": {
+                "help": "Registration ID when HSM_TYPE_SYMM_KEY is supported; Ignored for other HSM types",
+                "value": "\"REGISTRATION_ID\""
+            },
+            "provision_symmetric_key": {
+                "help": "Symmetric key when HSM_TYPE_SYMM_KEY is supported; Ignored for other HSM types",
+                "value": "\"SYMMETRIC_KEY\""
+            },
+            "provision_endpoint": {
+                    "help": "Device provisioning service URI",
             "value": "\"global.azure-devices-provisioning.net\""
-        },
-        "provision_id_scope": {
-            "help": "Device provisioning service ID scope",
-            "value": "\"ID_SCOPE\""
-        },
-    ```
+            },
+            "provision_id_scope": {
+                "help": "Device provisioning service ID scope",
+                "value": "\"ID_SCOPE\""
+            },
+        ```
 
-1.  Connecting straight, configure connection string.
+    1.  Enable Azure C-SDK provisioning client module and custom HSM.
 
-    **mbed_app.json**:
-    ```json
-        "iothub_connection_string": {
-            "help": "Device connection string for IoT Hub authentication when DPS is not used",
-            "value": "\"IOTHUB_CONNECTION_STRING\""
-        },
-    ```
+        **mbed_app.json**:
+        ```
+        "macros": [
+            "USE_PROV_MODULE",
+            "HSM_AUTH_TYPE_CUSTOM"
+        ],
+        ```
 
-1.  Connecting via DPS, eenable Azure C-SDK provisioning client module and custom HSM.
+1.  On connecting with IoT Hub straight, 
 
-    **mbed_app.json**:
-    ```
-    "macros": [
-        "USE_PROV_MODULE",
-        "HSM_AUTH_TYPE_CUSTOM"
-    ],
-    ```
+    1.  Configure connection string.
+
+        **mbed_app.json**:
+        ```json
+            "iothub_connection_string": {
+                "help": "Device connection string for IoT Hub authentication when DPS is not used",
+                "value": "\"IOTHUB_CONNECTION_STRING\""
+            },
+        ```
+
+    1.  Disable Azure C-SDK provisioning client module and custom HSM.
+
+        **mbed_app.json**:
+        <pre>
+            "macros": [
+                <del>"USE_PROV_MODULE",</del>
+                <del>"HSM_AUTH_TYPE_CUSTOM"</del>
+            ],
+        </pre>
 
 1.  Configure network interface
     -   Ethernet: Need no further configuration.
@@ -220,6 +234,7 @@ which implements the model [dtmi:com:example:TemperatureController;1](https://gi
 [Azure C-SDK Provisioning Client](https://github.com/Azure/azure-iot-sdk-c/blob/master/provisioning_client/devdoc/using_provisioning_client.md) requires [HSM](https://docs.microsoft.com/en-us/azure/iot-dps/concepts-service#hardware-security-module).
 This directory provides one custom HSM library for development.
 It is adapted from [Azure C-SDK custom hsm example](https://github.com/Azure/azure-iot-sdk-c/tree/master/provisioning_client/samples/custom_hsm_example).
+If connecting with IoT Hub straight (so `HSM_AUTH_TYPE_CUSTOM` undefined above), this directory gets unnecessary and can be removed.
 
 ##### Connecting via Device Provisioning Service with symmetric key
 
