@@ -24,7 +24,7 @@ Check [below](#compile-with-mbed-cli) for their respective configuration.
 
 Platform                        |  Connectivity     | Notes
 --------------------------------|-------------------|---------------
-Nuvoton NUMAKER_IOT_M487        | Wi-Fi ESP8266     |
+Nuvoton NUMAKER_IOT_M487        | Cellular BG96/EC2X|
 
 ## Support development tools
 
@@ -157,16 +157,39 @@ In the following, we take [NuMaker-IoT-M487](https://os.mbed.com/platforms/NUMAK
         ],
         </pre>
 
-1.  Configure network interface
-    -   Ethernet: Need no further configuration.
-    -   WiFi: Configure WiFi `SSID`/`PASSWORD`.
+1.  Configure cellular network interface
+    -   BG96: Configure pins.
 
         **mbed_app.json**:
         ```json
-            "nsapi.default-wifi-ssid"               : "\"SSID\"",
-            "nsapi.default-wifi-password"           : "\"PASSWORD\"",
+            "QUECTEL_BG96.provide-default": true,
+            "lwip.ppp-enabled": false,
+            "lwip.tcp-enabled": false,
+            "QUECTEL_BG96.tx": "D1", 
+            "QUECTEL_BG96.rx": "D0",
         ```
+    -   EC21: Need no further configuration.
 
+        **mbed_app.json**:
+        ```json
+            "lwip.ppp-enabled": true,
+            "lwip.tcp-enabled": true,
+            "GENERIC_AT3GPP.tx": "D1",
+            "GENERIC_AT3GPP.rx": "D0",
+        ```
+        
+1.  Change the network and SIM credentials
+
+Provide the pin code for your SIM card, as well as any APN settings if needed. For example:
+
+        **mbed_app.json**:
+        ```json
+            "nsapi.default-cellular-sim-pin": 0,
+            "nsapi.default-cellular-apn": "\"internet.iot\"",
+            "nsapi.default-cellular-username": 0,
+            "nsapi.default-cellular-password": 0
+        ```
+        
 1.  Build the example on **NUMAKER_IOT_M487** target and **ARM** toolchain
     ```sh
     $ mbed compile -m NUMAKER_IOT_M487 -t ARM
