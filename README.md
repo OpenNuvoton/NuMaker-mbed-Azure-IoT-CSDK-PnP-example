@@ -158,7 +158,7 @@ In the following, we take [NuMaker-IoT-M487](https://os.mbed.com/platforms/NUMAK
         </pre>
 
 1.  Configure cellular network interface
-    -   BG96: Configure pins.
+    -   BG96: Configure TX/RX pins.
 
         **mbed_app.json**:
         ```json
@@ -168,7 +168,7 @@ In the following, we take [NuMaker-IoT-M487](https://os.mbed.com/platforms/NUMAK
             "QUECTEL_BG96.tx": "D1", 
             "QUECTEL_BG96.rx": "D0",
         ```
-    -   EC21: Need no further configuration.
+    -   EC21: Configure TX/RX pins.
 
         **mbed_app.json**:
         ```json
@@ -179,8 +179,7 @@ In the following, we take [NuMaker-IoT-M487](https://os.mbed.com/platforms/NUMAK
         ```
         
 1.  Change the network and SIM credentials
-
-Provide the pin code for your SIM card, as well as any APN settings if needed. For example:
+    -   Provide the pin code for your SIM card, as well as any APN settings if needed. For example:
 
         **mbed_app.json**:
         ```json
