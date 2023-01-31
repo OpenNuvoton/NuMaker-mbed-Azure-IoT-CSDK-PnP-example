@@ -147,6 +147,10 @@ In the following, we take [NuMaker-IoT-M487](https://os.mbed.com/platforms/NUMAK
             },
         ```
 
+        **NOTE**: With Mbed CLI 2, CMake uses semicolon as list separator,
+        and doesn't handle `iothub_connection_string` with semicolon correctly.
+        Use Mbed CLI 1 anyway.
+
     1.  Disable Azure C-SDK provisioning client module and custom HSM.
 
         **mbed_app.json**:
