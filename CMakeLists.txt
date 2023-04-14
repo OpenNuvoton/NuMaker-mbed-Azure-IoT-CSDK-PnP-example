@@ -9,6 +9,7 @@ set(APP_TARGET NuMaker-mbed-Azure-IoT-CSDK-PnP-example)
 
 include(${MBED_PATH}/tools/cmake/app.cmake)
 
+project(${APP_TARGET})
 add_subdirectory(${MBED_PATH})
 add_subdirectory(mbed-client-for-azure)
 add_subdirectory(ntp-client)
@@ -16,8 +17,6 @@ add_subdirectory(ntp-client)
 add_executable(${APP_TARGET})
 
 mbed_configure_app_target(${APP_TARGET})
-
-project(${APP_TARGET})
 
 target_include_directories(${APP_TARGET}
     PRIVATE
